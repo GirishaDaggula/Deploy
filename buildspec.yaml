@@ -4,16 +4,16 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region YOUR_REGION | docker login --username AWS --password-stdin YOUR_AWS_ACCOUNT_ID.dkr.ecr.YOUR_REGION.amazonaws.com
+      - aws ecr get-login-password --region YOUR_REGION | docker login --username AWS --password-stdin 904233128713.dkr.ecr.us-east-1.amazonaws.com
   build:
     commands:
       - echo Build started on `date`
       - echo Building Docker image...
       - docker build -t lastname-ecs-app .
-      - docker tag lastname-ecs-app:latest YOUR_AWS_ACCOUNT_ID.dkr.ecr.YOUR_REGION.amazonaws.com/lastname-ecs-app:latest
+      - docker tag lastname-ecs-app:latest 904233128713.dkr.ecr.us-east-1.amazonaws.com/daggula:latest
   post_build:
     commands:
       - echo Build completed on `date`
-      - docker push YOUR_AWS_ACCOUNT_ID.dkr.ecr.YOUR_REGION.amazonaws.com/lastname-ecs-app:latest
+      - docker push 904233128713.dkr.ecr.us-east-1.amazonaws.com/daggula:latest
 artifacts:
   files: '**/*'
