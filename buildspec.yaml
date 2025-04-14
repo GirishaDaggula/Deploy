@@ -5,15 +5,22 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 904233128713.dkr.ecr.us-east-1.amazonaws.com
+
   build:
     commands:
       - echo Build started on `date`
       - echo Building Docker image...
       - docker build -t lastname-ecs-app .
       - docker tag lastname-ecs-app:latest 904233128713.dkr.ecr.us-east-1.amazonaws.com/daggula:latest
+
   post_build:
     commands:
       - echo Build completed on `date`
+      - echo Pushing image to ECR...
       - docker push 904233128713.dkr.ecr.us-east-1.amazonaws.com/daggula:latest
+      - echo Writing imagedefinitions.json...
+      - printf '[{"name":"daggula-ecs-app-container", "imageUri":"904233128713.dkr.ecr.us-east-1.amazonaws.com/daggula:latest"}]' > imagedefinitions.json
+
 artifacts:
-  files: '**/*'
+  files:
+    - imagedefinitions.json
